@@ -5,18 +5,13 @@ import { Provider } from 'react-redux'
 import AppRouter from './routers/AppRouter';
 import configureStore from './store/configureStore'
 import { addExpense } from './actions/expenses'
-import { setTextFilter } from './actions/filters'
 import getVisibleExpenses from './selectors/expenses'
 import * as serviceWorker from './serviceWorker';
 
 const store = configureStore()
 store.dispatch(addExpense({ description: "water bill", amount: 4500 }))
-store.dispatch(addExpense({ description: "gas bill" }))
-store.dispatch(setTextFilter('water'))
-
-setTimeout(() => {
-  store.dispatch(setTextFilter('bill'))
-}, 3000 )
+store.dispatch(addExpense({ description: "gas bill", createdAt: 1000 }))
+store.dispatch(addExpense({ description: "Rent", amount: 10532523 }))
 
 const state = store.getState()
 const visibleExpenses = getVisibleExpenses(state.expenses, state.filters)
