@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { removeExpense } from "../actions/expenses";
 
 const ExpenseListItem = ({ description, amount, createdAt, id, dispatch }) => {
-  console.log(dispatch)
-  console.log(id)
+  console.log(createdAt)
 
   return (
     <div>

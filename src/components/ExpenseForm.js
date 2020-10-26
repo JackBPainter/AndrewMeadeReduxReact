@@ -3,35 +3,54 @@ import moment from 'moment'
 import { SingleDatePicker } from 'react-dates'
 import 'react-dates/lib/css/_datepicker.css'
 
-const now = moment()
-console.log(now.format("MMM, Do, YYYY"))
-
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
     const [description, setDescription] = useState('')
     const [note, setNote] = useState('')
     const [amount, setAmount] = useState('')
     const [createdAt, setCreatedAt] = useState(moment())
     const [calenderFocus, setCalenderFocus] = useState(false)
-
-    console.log(createdAt)
-
+    const [error, setError] = useState('')
+    
     const onAmountChange = (e) => {
         if(!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
             setAmount(e.target.value)
         }
     }
 
-    const onDateChange = (createdAt) => {
-        setCreatedAt(() => ({ moment: createdAt }))
+    const onDateChange = (date) => {
+        console.log(date)
+        if(createdAt) {
+            setCreatedAt(date)
+        }
     }
 
     const onFocusChange = ({ focused }) => {
         setCalenderFocus(focused)
     }
 
+    const onSubmit = (e) => {
+        e.preventDefault()
+
+        if(!description || !amount) {
+            setError("ERROR, please provide a deescription and amount")
+        } else {
+            setError('')
+            props.onSubmit({
+                description,
+                amount: parseFloat(amount, 10) * 100,
+                createdAt: createdAt._d.valueOf(),
+                note
+            })
+        }
+    }
+
     return (
         <div>
-            <form>
+            {error ? 
+                <div>{error}</div> : 
+                null
+            }
+            <form onSubmit={onSubmit}>
                 <input 
                     type="text"
                     placeholder="Description"
@@ -46,7 +65,7 @@ const ExpenseForm = () => {
                     onChange={onAmountChange}
                 />
                 <SingleDatePicker 
-                    date={createdAt.moment}
+                    date={createdAt}
                     onDateChange={onDateChange}
                     focused={calenderFocus}
                     onFocusChange={onFocusChange}
