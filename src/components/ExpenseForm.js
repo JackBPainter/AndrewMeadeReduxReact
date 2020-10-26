@@ -16,7 +16,7 @@ const ExpenseForm = () => {
     console.log(createdAt)
 
     const onAmountChange = (e) => {
-        if(amount.match(/^\d*(\.\d{0,2})?$/)) {
+        if(!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
             setAmount(e.target.value)
         }
     }
@@ -46,7 +46,7 @@ const ExpenseForm = () => {
                     onChange={onAmountChange}
                 />
                 <SingleDatePicker 
-                    date={createdAt}
+                    date={createdAt.moment}
                     onDateChange={onDateChange}
                     focused={calenderFocus}
                     onFocusChange={onFocusChange}
