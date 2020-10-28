@@ -4,10 +4,10 @@ import { SingleDatePicker } from 'react-dates'
 import 'react-dates/lib/css/_datepicker.css'
 
 const ExpenseForm = (props) => {
-    const [description, setDescription] = useState('')
-    const [note, setNote] = useState('')
-    const [amount, setAmount] = useState('')
-    const [createdAt, setCreatedAt] = useState(moment())
+    const [description, setDescription] = useState(props.expense ? props.expense.description : '')
+    const [note, setNote] = useState(props.expense ? props.expense.note : '')
+    const [amount, setAmount] = useState(props.expense ? (props.expense.amount / 100).toString() : '')
+    const [createdAt, setCreatedAt] = useState(props.expense ? moment(props.expense.createdAt) : moment())
     const [calenderFocus, setCalenderFocus] = useState(false)
     const [error, setError] = useState('')
     
